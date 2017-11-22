@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 
-public class Denunciar extends JFrame implements ActionListener  {
+public class Denunciar extends JPanel implements ActionListener  {
 
 	//Atributos
 	/** Campos de texto*/
@@ -46,9 +46,6 @@ public class Denunciar extends JFrame implements ActionListener  {
 		btnRegresar = new JButton("Regresar");
 		
 		// 2)Configuración de los elemntos gráficos
-		this.setTitle("Poliapp - Denunciar");
-		this.setResizable(false);
-		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
 		this.setLayout(new GridLayout());
 		
 		btnEnviarDenuncia.setBackground(Color.WHITE);
@@ -79,7 +76,7 @@ public class Denunciar extends JFrame implements ActionListener  {
 		// 3) Añadirlos al contenedor 
 		/* Configura un panel auxiliar para los campos de entrada*/
 		JPanel pa = new JPanel(new GridBagLayout());
-		pa.setPreferredSize(new Dimension (300,300));
+		pa.setPreferredSize(new Dimension (300, 300));
 		GridBagConstraints cond = new GridBagConstraints();
 		
 		cond.insets = new Insets(5, 5, 5, 5);
@@ -100,7 +97,7 @@ public class Denunciar extends JFrame implements ActionListener  {
 		pa.add(txtDescripcion, cond);
 		
 		JPanel panel = new JPanel(new GridBagLayout());
-		panel.setPreferredSize(new Dimension(500, 500));
+		panel.setPreferredSize(new Dimension(650, 450));
 		GridBagConstraints condiciones = new GridBagConstraints();
 		
 		condiciones.fill = GridBagConstraints.NONE;
@@ -133,13 +130,11 @@ public class Denunciar extends JFrame implements ActionListener  {
 
 		/*Adiciona los páneles a la ventana */
 		this.add (panel);
-		this.pack();
-		this.setVisible (true);
 	}
 	
-	public static void main(String[] args) {
-		new Denunciar();
-	}
+//	public static void main(String[] args) {
+//		new Denunciar();
+//	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {

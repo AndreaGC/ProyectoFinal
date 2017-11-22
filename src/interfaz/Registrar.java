@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 
-public class Registrar extends JFrame implements ActionListener {
+public class Registrar extends JPanel implements ActionListener {
 	//Atributos
 	/**
 	 * Etiquetas
@@ -38,11 +38,6 @@ public class Registrar extends JFrame implements ActionListener {
 		btnSalir = new JButton("Cancelar");
 		
 		// 2)Configuración de los elemntos gráficos
-		this.setTitle("Registrar");
-		this.setSize (400,200);
-		this.setResizable(false);
-		this.setLocationRelativeTo(null);
-		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
 		this.setLayout(new BorderLayout());
 		
 		lblUser.setHorizontalAlignment(JLabel.RIGHT);
@@ -76,18 +71,7 @@ public class Registrar extends JFrame implements ActionListener {
 		
 		this.add (pe, BorderLayout.CENTER);
 		this.add (pc, BorderLayout.SOUTH);
-		this.pack();
-		this.setVisible (true);
-		
-		
-		this.setVisible(true);
-		
 	}
-	
-	public static void main(String[] args) {
-		new Registrar();
-	}
-	
 	
 	/**
 	 * Implementación de las acciones de los botones
@@ -99,18 +83,10 @@ public class Registrar extends JFrame implements ActionListener {
 		this.salir();
 	}
 	
-	/** 
-	 * Método de respuesta al botón salir
-	 */
 	public void salir(){
 		System.exit(0);
 	}
-	/** 
-	 * Método de respuesta al botón autenticar
-	 */
-	/** 
-	 * Método de respuesta al botón salir
-	 */
+	
 	public void cambiar(){
 		
 	}

@@ -12,8 +12,7 @@ import javax.swing.*;
 import logica.*;
 
 public class PanelPerfil extends JPanel{
-	private JTextArea txtApodo;
-	private JTextArea txtPuntos;
+	private JTextArea txtPerfil;
 	
 	private JButton btnCambiarContrasenia;
 	private JButton btnCerrarSesion;
@@ -31,8 +30,11 @@ public class PanelPerfil extends JPanel{
 		
 		this.usuario = this.buscar();
 		
-		this.txtApodo = new JTextArea();
-		this.txtPuntos = new JTextArea();
+		if (this.usuario == null) {
+			this.txtPerfil = new JTextArea("None");
+		} else {
+			this.txtPerfil = new JTextArea(this.usuario.getApodo() + " (" + this.usuario.getPuntos() + ")");
+		}
 		
 		this.btnCambiarContrasenia  = new JButton("Cambiar contraseña");
 		this.btnCerrarSesion = new JButton("Cerrar Sesion");
@@ -42,22 +44,16 @@ public class PanelPerfil extends JPanel{
 		
 		this.btnCambiarContrasenia.setBackground(Color.WHITE);
 		this.btnCerrarSesion.setBackground(Color.WHITE);
-		this.btnCambiarContrasenia.setPreferredSize(new Dimension(150, 40));
-		this.btnCerrarSesion.setPreferredSize(new Dimension(150, 40));
+		this.btnCambiarContrasenia.setPreferredSize(new Dimension(200, 50));
+		this.btnCerrarSesion.setPreferredSize(new Dimension(200, 50));
 		
-		this.txtApodo.setPreferredSize(new Dimension(300, 300));
-		this.txtPuntos.setPreferredSize(new Dimension(300, 300));
+		this.txtPerfil.setPreferredSize(new Dimension(450, 200));
+		this.txtPerfil.setFont(new Font("Monospaced", Font.BOLD, 70));
+		this.txtPerfil.setLineWrap(true);
+		this.txtPerfil.setWrapStyleWord(true);
+		this.txtPerfil.setOpaque(false);
+		this.txtPerfil.setEditable(false);
 		
-		this.txtApodo.setLineWrap(true);
-		this.txtApodo.setWrapStyleWord(true);
-		this.txtApodo.setOpaque(false);
-		this.txtApodo.setEditable(false);
-		
-		this.txtPuntos.setLineWrap(true);
-		this.txtPuntos.setWrapStyleWord(true);
-		this.txtPuntos.setOpaque(false);
-		this.txtPuntos.setEditable(false);
-				
 		// 3) Añadirlos al contenedor 
 		JPanel panel = new JPanel(new GridBagLayout());
 		panel.setPreferredSize(new Dimension(650, 450));
@@ -66,26 +62,19 @@ public class PanelPerfil extends JPanel{
 		condiciones.fill = GridBagConstraints.NONE;
 		
 		condiciones.gridwidth = 2;
-		condiciones.weightx = 1.0;
-		condiciones.weighty = 1.0;
 		condiciones.gridx = 1;
 		condiciones.gridy = 1;
-		panel.add(this.txtApodo, condiciones);
-		
-		condiciones.weightx = 0.0;
-		condiciones.gridx = 1;
-		condiciones.gridy = 2;
-		panel.add(this.txtPuntos, condiciones);
+		panel.add(this.txtPerfil, condiciones);
 		
 		condiciones.gridwidth = 1;
 		condiciones.weightx = 1.0;
 		condiciones.gridx = 1;
-		condiciones.gridy = 3;
+		condiciones.gridy = 2;
 		panel.add(this.btnCambiarContrasenia, condiciones);
 		
 		condiciones.gridwidth = 1;
 		condiciones.gridx = 2;
-		condiciones.gridy = 3;
+		condiciones.gridy = 2;
 		panel.add(this.btnCerrarSesion, condiciones);
 		
 		this.add(panel);
@@ -95,6 +84,12 @@ public class PanelPerfil extends JPanel{
 	public void cerrarSesion() {
 		this.usuario.setEstado(false);
 		this.grabarDatos();
+	}
+	
+	public void actualizar() {
+		this.cargarDatos();
+		this.usuario = this.buscar();
+		this.txtPerfil = new JTextArea(this.usuario.getApodo() + " (" + this.usuario.getPuntos() + ")");
 	}
 	
 	public boolean grabarDatos() {
@@ -138,7 +133,7 @@ public class PanelPerfil extends JPanel{
 			return usuarioTemp;
 		} else {
 			return null;
-		}
+		}		
 	}
 	
 	public JButton getBtnCambiarContrasenia() {

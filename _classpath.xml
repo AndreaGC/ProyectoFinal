@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="E:/programacion/Universidad/POO/java/Poliapp/lib/jxbrowser-mac-6.17.jar"/>
 	<classpathentry kind="lib" path="E:/programacion/Universidad/POO/java/Poliapp/lib/jxbrowser-win32-6.17.jar"/>
 	<classpathentry kind="lib" path="E:/programacion/Universidad/POO/java/Poliapp/lib/license.jar"/>
+	<classpathentry kind="lib" path="E:/programacion/Universidad/POO/java/Poliapp/lib/mail.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

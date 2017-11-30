@@ -37,6 +37,9 @@ public class VentanaPrincipal extends JFrame implements ActionListener  {
 	private JButton btnConsultarDidactico;
 	private JButton btnCambiarContrasenia;
 	private JButton btnCerrarSesion;
+	private JButton btnEmpezarJuego;
+	private JButton btnEnviar;
+	private JButton btnComentar;
 	
 	private ArrayList <CuentaUsuario> usuarios;
 	
@@ -58,7 +61,8 @@ public class VentanaPrincipal extends JFrame implements ActionListener  {
 	private PanelIniciarSesion pnlSesion;
 	private PanelPDF pnlPDF;
 	private PanelPerfil pnlPerfil;
-	
+	private PanelIniciarJuego pnlIniciarJuego;
+	private PanelComentario pnlComentario;
 	
 	/**
 	 * Constructor por omisión: Construye la ventana
@@ -73,7 +77,6 @@ public class VentanaPrincipal extends JFrame implements ActionListener  {
 		pnlDenuncia = new PanelDenuncia();
 		pnlSugerencias = new PanelSugerencias();
 		pnlConsulta = new PanelConsulta();
-		pnlDidactico = new PanelDidactico();
 		pnlUsuario = new PanelUsuario();
 		pnlMapa = new PanelMapa();
 		pnlInfracciones = new PanelInfracciones();
@@ -83,7 +86,9 @@ public class VentanaPrincipal extends JFrame implements ActionListener  {
 		pnlSesion = new PanelIniciarSesion();
 		this.pnlPerfil = new PanelPerfil();
 		this.pnlPDF = new PanelPDF();
-		
+		this.pnlDidactico = new PanelDidactico();
+		this.pnlIniciarJuego = new PanelIniciarJuego();
+		this.pnlComentario = new PanelComentario();
 		
 		btnUsuario = new JButton("Usuario", new ImageIcon("img/usuario.png"));
 		btnConsultar = new JButton("Consultar norma", new ImageIcon("img/documento.png"));
@@ -95,7 +100,6 @@ public class VentanaPrincipal extends JFrame implements ActionListener  {
 		btnJuego = new JButton("Jugar", new ImageIcon("img/juego.png"));
 		
 		usuarios = new ArrayList();
-		this.cargarDatos();
 		
 		this.definirPropiedades(btnUsuario);
 		this.definirPropiedades(btnConsultar);
@@ -120,6 +124,9 @@ public class VentanaPrincipal extends JFrame implements ActionListener  {
 		this.btnConsultarDidactico = pnlConsulta.getBtnConsultarDidactico();
 		this.btnCerrarSesion = pnlPerfil.getBtnCerrarSesion();
 		this.btnCambiarContrasenia = pnlPerfil.getBtnCambiarContrasenia();
+		this.btnEmpezarJuego = pnlIniciarJuego.getBtnEmpezarJuego();
+		this.btnEnviar = pnlJuego.getBtnEnviar();
+		this.btnComentar = pnlDidactico.getBtnComentar();
 		
 		this.btnIniciarSesion.addActionListener(this);
 		this.btnRegistrar.addActionListener(this);
@@ -135,6 +142,9 @@ public class VentanaPrincipal extends JFrame implements ActionListener  {
 		this.btnConsultarDidactico.addActionListener(this);
 		this.btnCerrarSesion.addActionListener(this);
 		this.btnCambiarContrasenia.addActionListener(this);
+		this.btnEmpezarJuego.addActionListener(this);
+		this.btnEnviar.addActionListener(this);
+		this.btnComentar.addActionListener(this);
 		
 		this.logo = new JLabel(new ImageIcon("./img/logo.png"));
 		this.logo.setBackground(new Color(0, 0, 51));
@@ -203,6 +213,10 @@ public class VentanaPrincipal extends JFrame implements ActionListener  {
 		panel.add(this.pnlRegistro, condiciones);
 		panel.add(this.pnlSesion, condiciones);
 		panel.add(this.pnlMapa, condiciones);
+		panel.add(this.pnlPerfil, condiciones);
+		panel.add(this.pnlIniciarJuego, condiciones);
+		panel.add(this.pnlJuego, condiciones);
+		panel.add(this.pnlComentario, condiciones);
 		
 		this.add (panel);
 		this.pack();
@@ -221,9 +235,10 @@ public class VentanaPrincipal extends JFrame implements ActionListener  {
 	@Override
 	public void actionPerformed(ActionEvent evento) {
 		if (evento.getSource() == this.btnUsuario) {
+			this.cargarDatos();
 			if (buscar()) {
 				this.ocultarPaneles(this.pnlPerfil);
-			}else {
+			} else {
 				this.ocultarPaneles(this.pnlUsuario);
 			}
 		} else if (evento.getSource() == this.btnConsultar){
@@ -239,7 +254,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener  {
 		} else if (evento.getSource() == this.btnPanico) {
 			//TODO
 		} else if (evento.getSource() == this.btnJuego) {
-			//TODO
+			this.ocultarPaneles(this.pnlIniciarJuego);
 		} else if (evento.getSource() == this.btnIniciarSesion) {
 			this.ocultarPaneles(this.pnlSesion);
 		} else if (evento.getSource() == this.btnRegistrar) {
@@ -256,7 +271,8 @@ public class VentanaPrincipal extends JFrame implements ActionListener  {
 			//TODO
 		} else if (evento.getSource() == this.btnValidarSesion) {
 			if (this.pnlSesion.verificar()) {
-				this.ocultarPaneles(null);
+				dispose();
+				new VentanaPrincipal();
 			}
 		} else if (evento.getSource() == this.btnNoIniciarSesion) {
 			this.ocultarPaneles(this.pnlUsuario);
@@ -267,11 +283,22 @@ public class VentanaPrincipal extends JFrame implements ActionListener  {
 		} else if (evento.getSource() == this.btnConsultarPDF) {
 			pnlPDF.mostrarPDF();
 		} else if (evento.getSource() == this.btnConsultarDidactico) {
+			this.pnlConsulta.grabarDatos();
+			this.pnlDidactico.resetearImagen();
 			this.ocultarPaneles(this.pnlDidactico);
 		} else if (evento.getSource() == this.btnCerrarSesion) {
+			this.pnlPerfil.cerrarSesion();
 			this.ocultarPaneles(this.pnlUsuario);
 		} else if (evento.getSource() == this.btnCambiarContrasenia) {
-			this.ocultarPaneles(this.pnlDidactico);
+			//TODO
+		} else if (evento.getSource() == this.pnlIniciarJuego.getBtnEmpezarJuego()) {
+			this.ocultarPaneles(pnlJuego);
+		} else if (evento.getSource() == this.pnlJuego.getBtnEnviar()) {
+			this.pnlJuego.verificarRespuesta();
+			this.pnlJuego.cambiarIndice();
+			this.ocultarPaneles(pnlJuego);
+		}else if (evento.getSource() == this.btnComentar) {
+			this.ocultarPaneles(pnlComentario);
 		}
 	}
 	
@@ -281,10 +308,14 @@ public class VentanaPrincipal extends JFrame implements ActionListener  {
 		this.pnlConsulta.setVisible(false);
 		this.pnlDidactico.setVisible(false);
 		this.pnlUsuario.setVisible(false);
+		this.pnlSesion.setVisible(false);
 		this.pnlRegistro.setVisible(false);
 		this.pnlSesion.setVisible(false);
 		this.pnlMapa.setVisible(false);
 		this.pnlPerfil.setVisible(false);
+		this.pnlIniciarJuego.setVisible(false);
+		this.pnlJuego.setVisible(false);
+		this.pnlComentario.setVisible(false);
 		panel.setVisible(true);
 	}
 	
@@ -308,9 +339,10 @@ public class VentanaPrincipal extends JFrame implements ActionListener  {
 		for(int i=0; i< usuarios.size() && !encontrado; i++) {
 			usuarioTemp = usuarios.get(i);
 			if(usuarioTemp.getEstado()){
-				encontrado=true;
+				encontrado = true;
 			}
 		}
+		
 		return encontrado;
 	}
 	

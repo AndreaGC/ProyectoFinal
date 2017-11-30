@@ -35,7 +35,6 @@ public class PanelRegistro extends JPanel{
 	/** Botones */
 	private JButton btnAceptar; 
 	private JButton btnCancelar;
-
 	
 	/** Objetos del modelo lógico */
 	//CuentaUsuario usuario;

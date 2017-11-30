@@ -125,24 +125,15 @@ public class PanelIniciarSesion extends JPanel {
 	}
 	
 	/** 
-	 * Método de respuesta al botón salir
-	 */
-	public void salir(){
-		if(grabarDatos())
-			JOptionPane.showMessageDialog(this,  "Datos almacenados correctamente");
-		System.exit(0);
-		//this.setVisible(false);
-	}
-	/** 
 	 * Método de respuesta al botón autenticar
 	 */
 	public boolean verificar(){
 		this.cargarDatos();
 		this.usuario = this.buscar();
 		if (this.usuario != null) {
-			if (usuario.iniciarSesion(txtUsuario.getText(),txtContrasenia.getText())) {
+			if (usuario.iniciarSesion(txtUsuario.getText(), txtContrasenia.getText())) {
 				this.usuario.setEstado(true);
-				JOptionPane.showMessageDialog(this,"¡Usuario autenticado correctamente!");
+				grabarDatos();
 				return true;
 			} else {
 				JOptionPane.showMessageDialog(this,"¡Usuario o contraseña incorrectos!");
@@ -153,16 +144,7 @@ public class PanelIniciarSesion extends JPanel {
 			return false;
 		}
 	}
-	/** 
-	 * Método de respuesta al botón salir
-	 */
-	public void cambiar(){
-		usuario.cambiarContrasenia(txtContrasenia.getText(), txtContrasenia.getText());
-		JOptionPane.showMessageDialog(this,  "Contraseña cambiada exitosamente");
-		txtContrasenia.setText("");
-	}
 	
-	//Estos métodos los tiene la clase ppal
 	/**
 	 * Método de persistencia: almacena los datos del usuario en archivo binario 
 	 */
@@ -170,7 +152,7 @@ public class PanelIniciarSesion extends JPanel {
 		try {
 			FileOutputStream fout = new FileOutputStream ("./data/usuarios.dat");
 			ObjectOutputStream out = new ObjectOutputStream (fout);
-			out.writeObject(usuario);
+			out.writeObject(usuarios);
 			out.close();
 			fout.close();
 			return true;
@@ -201,11 +183,13 @@ public class PanelIniciarSesion extends JPanel {
 	 * Método auxiliar para buscar un usuario en el arreglo
 	 */
 	public CuentaUsuario buscar() {
-		CuentaUsuario usuario=null;
+		CuentaUsuario usuario = null;
 		boolean encontrado = false; 
 		
+		System.out.println(usuarios.size());
 		for(int i=0; i< usuarios.size() && !encontrado; i++) {
 			usuario = usuarios.get(i);
+			System.out.println(usuario.getApodo() + "*******" + usuario.getCorreo());
 			if(usuario.getApodo().equals(txtUsuario.getText()) || usuario.getCorreo().equals(txtUsuario.getText())){
 				encontrado=true;
 			}
